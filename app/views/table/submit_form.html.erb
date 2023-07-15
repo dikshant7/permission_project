@@ -1,0 +1,11 @@
+<h1>Form Data:</h1>
+<ul>
+
+  <% if @sql.nil? %>
+    <h>empty</h>
+    <% else %>
+    <% @sql.each do |data| %>
+      <li><%= data %></li>
+    <% end %>
+  <% end %>
+</ul>

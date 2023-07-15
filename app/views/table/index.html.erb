@@ -1,0 +1,53 @@
+<%#= javascript_include_tag 'submit' %>
+<%= form_tag table_index_path, method: :get do %>
+  <%= text_field_tag :search, params[:search], placeholder: "Search items" %>
+  <%= submit_tag "Search" %>
+<% end %>
+<% if params[:search] && params[:search]!="" %>
+    <% @tables.each do |table|%>
+    <% if !@all_tables_array.include?(table) %>
+      <% @all_tables_array.push(table)%>
+    <%end %>
+    <%end%>
+    <%= form_with(url: "/submit_form", method: "POST", local: true) do |form| %>
+    <% @all_tables_array.each do |item| %>
+
+      <p><%= item %></p>
+      <!-- form fields for each item -->
+      <label>
+        <%= form.check_box "data[#{item}][1]"%>
+        create
+      </label>
+      <label>
+        <%= form.check_box "data[#{item}][2]"%>
+        read
+      </label>
+      <label>
+        <%= form.check_box "data[#{item}][3]" %>
+        update
+      </label>
+      <label>
+        <%= form.check_box "data[#{item}][4]" %>
+        delete
+      </label>
+      <!-- Add more checkbox fields as needed -->
+
+    <% end %>
+  <% end %>
+
+  <button id="submitAllForms" type="button">Submit All Forms</button>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      $(document).ready(function() {
+          $("#submitAllForms").click(function() {
+              $("form").each(function() {
+                  $(this).submit();
+              });
+          });
+      });
+  </script>
+
+
+<% end %>
+
